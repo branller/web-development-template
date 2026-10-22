@@ -1,45 +1,51 @@
-import typescriptEslintEslintPlugin from "@typescript-eslint/eslint-plugin";
-import globals from "globals";
+import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
+import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import globals from "globals";
+import prettier from "eslint-plugin-prettier";
+import nextPlugin from "@next/eslint-plugin-next";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default [{
-    ignores: ["**/.eslintrc.js"],
-}, ...compat.extends("plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"), {
-    plugins: {
-        "@typescript-eslint": typescriptEslintEslintPlugin,
-    },
-
+export default [
+  {
+    ignores: [
+      ".next/**",
+      "node_modules/**",
+      "out/**",
+      "build/**",
+      "coverage/**",
+      "dist/**",
+      "next-env.d.ts",
+    ],
+  },
+  js.configs.recommended,
+  {
+    files: ["**/*.{js,ts,tsx}"],
     languageOptions: {
-        globals: {
-            ...globals.node,
-            ...globals.jest,
-        },
-
-        parser: tsParser,
-        ecmaVersion: 5,
-        sourceType: "module",
-
-        parserOptions: {
-            project: "tsconfig.json",
-            tsconfigRootDir: ".",
-        },
+      parser: tsParser,
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: __dirname,
+      },
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
     },
-
+    plugins: {
+      "@typescript-eslint": typescriptEslint,
+      prettier,
+      "@next/next": nextPlugin,
+    },
     rules: {
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "prettier/prettier": ["error", { printWidth: 120 }],
+      ...typescriptEslint.configs.recommended.rules,
+      ...nextPlugin.configs.recommended.rules,
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "prettier/prettier": ["error", { printWidth: 120 }],
     },
-}];
+  },
+];
