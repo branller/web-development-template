@@ -1,0 +1,33 @@
+
+# Dependencias
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Compilación
+dist/
+build/
+coverage/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
