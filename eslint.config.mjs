@@ -12,15 +12,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default [
   {
-    ignores: [".next/**", "node_modules/**", "out/**", "build/**", "coverage/**", "dist/**", "next-env.d.ts"],
+    ignores: [
+      ".agents/**",
+      ".claude/**",
+      ".next/**",
+      "node_modules/**",
+      "out/**",
+      "build/**",
+      "coverage/**",
+      "dist/**",
+      "next-env.d.ts",
+    ],
   },
+
   js.configs.recommended,
+
   {
-    files: ["**/*.{js,ts,tsx}"],
+    files: ["**/*.{js,mjs,ts,tsx}"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: "./tsconfig.json",
         tsconfigRootDir: __dirname,
       },
       globals: {
@@ -29,8 +40,23 @@ export default [
       },
     },
     plugins: {
-      "@typescript-eslint": typescriptEslint,
       prettier,
+    },
+    rules: {
+      "no-console": "warn",
+      "prettier/prettier": "error",
+    },
+  },
+
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    languageOptions: {
+      parserOptions: {
+        project: "./tsconfig.json",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": typescriptEslint,
       "@next/next": nextPlugin,
     },
     rules: {
@@ -38,9 +64,8 @@ export default [
       ...nextPlugin.configs.recommended.rules,
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-explicit-any": "error",
-      "no-console": "warn",
-      "prettier/prettier": "error",
     },
   },
+
   eslintConfigPrettier,
 ];
