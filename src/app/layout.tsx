@@ -7,8 +7,9 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Web Development Template",
-  description: "Plantilla corporativa para aplicaciones web.",
+  title: "Forma — Diseño consistente para proyectos con IA",
+  description:
+    "Una demo de cómo shadcn/ui ayuda a estandarizar interfaces y crear un lenguaje compartido entre equipos y asistentes de IA.",
 };
 
 export default function RootLayout({
